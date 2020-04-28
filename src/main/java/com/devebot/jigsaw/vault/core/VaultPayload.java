@@ -7,7 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @see https://docs.ansible.com/ansible/latest/user_guide/vault.html#vault-payload-format-1-1-1-2
+ * VaultPayload implements the structure of the body of ansible vault block
+ * 
+ * https://docs.ansible.com/ansible/latest/user_guide/vault.html#vault-payload-format-1-1-1-2
+ * 
  */
 public class VaultPayload {
     private final static Logger LOG = LoggerFactory.getLogger(VaultPayload.class);

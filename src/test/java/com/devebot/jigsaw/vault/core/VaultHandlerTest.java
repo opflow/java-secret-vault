@@ -2,6 +2,7 @@ package com.devebot.jigsaw.vault.core;
 
 import com.devebot.jigsaw.vault.utils.TestingUtil;
 import java.io.IOException;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class VaultHandlerTest {
@@ -19,6 +20,7 @@ public class VaultHandlerTest {
         
         VaultHandler cryptor  = new VaultHandler();
         
-        System.out.println("Output: " + cryptor.decryptVault(vault));
+        // System.out.println("Output: " + cryptor.decryptVault(vault));
+        Assert.assertEquals("letmein", cryptor.decryptVault(vault));
     }
 }
