@@ -1,6 +1,7 @@
 package com.devebot.jigsaw.vault.core;
 
 import com.devebot.jigsaw.vault.crypto.CipherFactory;
+import com.devebot.jigsaw.vault.crypto.CipherInterface;
 import com.devebot.jigsaw.vault.exceptions.NullPasswordException;
 import com.devebot.jigsaw.vault.utils.StringUtil;
 import com.devebot.jigsaw.vault.utils.SystemUtil;
@@ -10,7 +11,10 @@ public class VaultHandler {
     
     public static final String VAULT_PASSWORD_ENV_VAR = "JAVA_ANSIBLE_VAULT_PASSWORD";
     public static final String VAULT_PASSWORD_PROP_NAME = "java.ansible.vault.password";
-
+    private static final String DEFAULT_HEADER = VaultHeader.VAULT_FORMAT_ID + ";"
+        + VaultHeader.VAULT_FORMAT_VERSION_1_1 + ";"
+        + CipherInterface.ALGO_AES256;
+    
     public boolean isVaultBlock(String vaultBlock) {
         return VaultHeader.isVaultBlock(vaultBlock);
     }
@@ -33,6 +37,15 @@ public class VaultHandler {
         VaultPayload payload = VaultParser.parsePayload(vaultBlock);
 
         return StringUtil.newString(CipherFactory.getCipher(header.getAlgorithm()).decrypt(payload, password));
+    }
+    
+    public String encryptVault(String plainText) {
+        return encryptVault(plainText, getVaultPassword());
+    }
+    
+    public String encryptVault(String plainText, String password) {
+        VaultPayload payload = CipherFactory.getCipher(CipherInterface.ALGO_AES256).encrypt(plainText.getBytes(), password);
+        return DEFAULT_HEADER + "\n" + payload.toString();
     }
     
     private String vaultPassword = null;

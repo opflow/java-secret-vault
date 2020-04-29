@@ -6,6 +6,7 @@ import com.devebot.jigsaw.vault.exceptions.DecryptingException;
 import com.devebot.jigsaw.vault.exceptions.EncryptingException;
 import com.devebot.jigsaw.vault.exceptions.PaddingException;
 import com.devebot.jigsaw.vault.exceptions.RestrictedCipherException;
+import com.devebot.jigsaw.vault.utils.HexadecimalUtil;
 import java.security.NoSuchAlgorithmException;
 
 import org.slf4j.Logger;
