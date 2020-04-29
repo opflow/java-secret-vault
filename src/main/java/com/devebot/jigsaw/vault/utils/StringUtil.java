@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 public class StringUtil {
     public static final String CHAR_ENCODING = "UTF-8";
+    public static final String LINE_BREAK = "\n";
     
     public static String newString(byte[] byteArray) {
         try {

@@ -66,7 +66,7 @@ public class VaultPayload {
             LOG.trace("Data String Length: {} - {}", dataString.length(), data.length);
         }
         
-        String complete =  saltString + "\n" + hmacString + "\n" + dataString;
+        String complete =  saltString + StringUtil.LINE_BREAK + hmacString + StringUtil.LINE_BREAK + dataString;
         if (LOG.isTraceEnabled()) {
             LOG.trace("Complete: {} \n{}", complete.length(), complete);
         }

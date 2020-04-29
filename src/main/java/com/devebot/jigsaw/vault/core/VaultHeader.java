@@ -41,7 +41,7 @@ public class VaultHeader {
         return version;
     }
     
-    private static final String VAULT_PREFIX = VaultHeader.VAULT_FORMAT_ID + ";";
+    private static final String VAULT_PREFIX = VaultHeader.VAULT_FORMAT_ID + HEADER_SEPARATOR;
     
     public static boolean isVaultBlock(String vault) {
         return vault != null && vault.length() > VAULT_PREFIX.length() && vault.startsWith(VAULT_PREFIX);

@@ -11,8 +11,8 @@ public class VaultHandler {
     
     public static final String VAULT_PASSWORD_ENV_VAR = "JAVA_ANSIBLE_VAULT_PASSWORD";
     public static final String VAULT_PASSWORD_PROP_NAME = "java.ansible.vault.password";
-    private static final String DEFAULT_HEADER = VaultHeader.VAULT_FORMAT_ID + ";"
-        + VaultHeader.VAULT_FORMAT_VERSION_1_1 + ";"
+    private static final String DEFAULT_HEADER = VaultHeader.VAULT_FORMAT_ID + VaultHeader.HEADER_SEPARATOR
+        + VaultHeader.VAULT_FORMAT_VERSION_1_1 + VaultHeader.HEADER_SEPARATOR
         + CipherInterface.ALGO_AES256;
     
     public boolean isVaultBlock(String vaultBlock) {
@@ -44,8 +44,9 @@ public class VaultHandler {
     }
     
     public String encryptVault(String plainText, String password) {
+        if (plainText == null) return plainText;
         VaultPayload payload = CipherFactory.getCipher(CipherInterface.ALGO_AES256).encrypt(plainText.getBytes(), password);
-        return DEFAULT_HEADER + "\n" + payload.toString();
+        return DEFAULT_HEADER + StringUtil.LINE_BREAK + payload.toString();
     }
     
     private String vaultPassword = null;
@@ -59,7 +60,7 @@ public class VaultHandler {
             }
             
             if (_password == null) {
-                String err = MessageFormat.format("Cannot find password in environment variable [{}] and property [{}]", new Object[] {
+                String err = MessageFormat.format("Cannot find password in environment variable [{0}] and property [{1}]", new Object[] {
                     VAULT_PASSWORD_ENV_VAR, VAULT_PASSWORD_PROP_NAME
                 });
                 throw new NullPasswordException(err);

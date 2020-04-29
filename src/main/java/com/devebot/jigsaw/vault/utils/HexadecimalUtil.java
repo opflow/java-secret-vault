@@ -2,7 +2,6 @@ package com.devebot.jigsaw.vault.utils;
 
 public class HexadecimalUtil {
     public static final int DEFAULT_LINE_LENGTH = 80;
-    public static final String LINE_BREAK = "\n";
     
     public static String encode(byte [] data) {
         return encode(data, DEFAULT_LINE_LENGTH);
@@ -15,7 +14,7 @@ public class HexadecimalUtil {
             result += String.format("%02x", val);
             colIdx++;
             if (lineLength > 0 && colIdx >= lineLength/2) {
-                result += LINE_BREAK;
+                result += StringUtil.LINE_BREAK;
                 colIdx=0;
             }
         }

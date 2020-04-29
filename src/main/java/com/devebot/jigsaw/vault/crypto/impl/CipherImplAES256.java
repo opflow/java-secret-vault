@@ -6,8 +6,6 @@ import com.devebot.jigsaw.vault.exceptions.DecryptingException;
 import com.devebot.jigsaw.vault.exceptions.EncryptingException;
 import com.devebot.jigsaw.vault.exceptions.PaddingException;
 import com.devebot.jigsaw.vault.exceptions.RestrictedCipherException;
-import com.devebot.jigsaw.vault.utils.HexadecimalUtil;
-import java.security.NoSuchAlgorithmException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +14,7 @@ import javax.crypto.Cipher;
 import javax.crypto.Mac;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 public class CipherImplAES256 implements CipherInterface {
@@ -119,7 +118,7 @@ public class CipherImplAES256 implements CipherInterface {
             padded = Arrays.copyOf(cleartext, cleartext.length + padding_length);
             padded[padded.length - 1] = (byte) padding_length;
         } catch (Exception ex) {
-            throw new PaddingException("Error calculating padding for " + CIPHER_ALGO + ": " + ex.getMessage());
+            throw new PaddingException("Error calculating padding for [" + CIPHER_ALGO + "]", ex);
         }
 
         return padded;
