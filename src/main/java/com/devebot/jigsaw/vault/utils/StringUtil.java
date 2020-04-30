@@ -27,4 +27,11 @@ public class StringUtil {
         }
         return MessageFormat.format(template, args);
     }
+    
+    public static String maskPassword(String password) {
+        if (password == null) return null;
+        char[] charArray = new char[password.length()];
+        Arrays.fill(charArray, '*');
+        return new String(charArray);
+    }
 }
