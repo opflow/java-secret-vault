@@ -5,7 +5,6 @@ import com.devebot.jigsaw.vault.crypto.CipherInterface;
 import com.devebot.jigsaw.vault.exceptions.NullPasswordException;
 import com.devebot.jigsaw.vault.utils.StringUtil;
 import com.devebot.jigsaw.vault.utils.SystemUtil;
-import java.text.MessageFormat;
 
 public class VaultHandler {
     
@@ -60,9 +59,10 @@ public class VaultHandler {
             }
             
             if (_password == null) {
-                String err = MessageFormat.format("Cannot find password in environment variable [{0}] and property [{1}]", new Object[] {
-                    VAULT_PASSWORD_ENV_VAR, VAULT_PASSWORD_PROP_NAME
-                });
+                String err = StringUtil.format("Cannot find password in environment variable [{0}] and property [{1}]",
+                    VAULT_PASSWORD_ENV_VAR,
+                    VAULT_PASSWORD_PROP_NAME
+                );
                 throw new NullPasswordException(err);
             }
             

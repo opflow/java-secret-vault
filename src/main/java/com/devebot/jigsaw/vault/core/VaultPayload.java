@@ -66,16 +66,8 @@ public class VaultPayload {
             LOG.trace("Data String Length: {} - {}", dataString.length(), data.length);
         }
         
-        String complete =  saltString + StringUtil.LINE_BREAK + hmacString + StringUtil.LINE_BREAK + dataString;
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Complete: {} \n{}", complete.length(), complete);
-        }
-        
-        String result = HexadecimalUtil.encode(complete.getBytes(), 80);
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Result: [{}] {}\n{}", complete.length() * 2, result.length(), result);
-        }
-        return result;
+        String compound =  saltString + StringUtil.LINE_BREAK + hmacString + StringUtil.LINE_BREAK + dataString;
+        return HexadecimalUtil.encode(compound.getBytes(), 80);
     }
 
     private int[] getDataLengths(byte[] encodedData) {
