@@ -13,7 +13,7 @@ public class ClipboardUtil {
             clipboard.setContents(stringSelection, stringSelection);
             return true;
         } catch (HeadlessException e) {
-            e.printStackTrace();
+            SystemUtil.printStackTrace(e);
             return false;
         }
     }

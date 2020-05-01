@@ -5,7 +5,7 @@ import com.devebot.jigsaw.vault.crypto.CipherInterface;
 import com.devebot.jigsaw.vault.utils.PasswordLoader;
 import com.devebot.jigsaw.vault.utils.StringUtil;
 
-public class VaultHandler {
+public class VaultCryptor {
     
     private static final String DEFAULT_HEADER = VaultHeader.VAULT_FORMAT_ID + VaultHeader.HEADER_SEPARATOR
         + VaultHeader.VAULT_FORMAT_VERSION_1_1 + VaultHeader.HEADER_SEPARATOR

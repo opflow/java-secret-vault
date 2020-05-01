@@ -15,8 +15,8 @@ public class PasswordLoader {
     public static final String VAULT_PASSWORD_SCRIPT_ENV_NAME = "JAVA_SECRET_VAULT_PASSWORD_SCRIPT";
     public static final String VAULT_PASSWORD_SCRIPT_SYS_PROP = "java.secret.vault.password.script";
     
-    public static final String VAULT_PASSWORD_TEXT_ENV_NAME = "JAVA_ANSIBLE_VAULT_PASSWORD";
-    public static final String VAULT_PASSWORD_TEXT_SYS_PROP = "java.ansible.vault.password";
+    public static final String VAULT_PASSWORD_TEXT_ENV_NAME = "JAVA_SECRET_VAULT_PASSWORD";
+    public static final String VAULT_PASSWORD_TEXT_SYS_PROP = "java.secret.vault.password";
     
     private String vaultPassword = null;
     
@@ -43,12 +43,12 @@ public class PasswordLoader {
             return vaultPassword;
         }
         
-        throw new NullPasswordException("Password not found");
+        throw new NullPasswordException("VaultPassword not found");
     }
     
     private boolean validatePassword(String password) {
         if (LOG.isTraceEnabled()) {
-            LOG.trace("[-] Your password: {}", StringUtil.maskPassword(password));
+            LOG.trace("[-] VaultPassword: {}", StringUtil.maskPassword(password));
         }
         return true;
     }
@@ -58,7 +58,7 @@ public class PasswordLoader {
         
         if (filePath != null) {
             try {
-                return String.join("\n", Files.readAllLines(Path.of(filePath)));
+                return String.join(StringUtil.LINE_BREAK, Files.readAllLines(Path.of(filePath)));
             } catch (Exception e) {
                 SystemUtil.printStackTrace(e);
                 return null;

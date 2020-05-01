@@ -1,6 +1,6 @@
 package com.devebot.jigsaw.vault;
 
-import com.devebot.jigsaw.vault.core.VaultHandler;
+import com.devebot.jigsaw.vault.core.VaultCryptor;
 import com.devebot.jigsaw.vault.utils.ClipboardUtil;
 import com.devebot.jigsaw.vault.utils.StringUtil;
 import java.io.Console;
@@ -18,8 +18,8 @@ public class Main {
         console.printf("[-] Your input secret: %s%n", StringUtil.maskPassword(secret));
         
         // encrypt the secret
-        VaultHandler vaultHandler  = new VaultHandler();
-        String vault = vaultHandler.encryptVault(secret);
+        VaultCryptor vaultCryptor  = new VaultCryptor();
+        String vault = vaultCryptor.encryptVault(secret);
         console.printf("[-] Vault Block:%n%s%n", vault);
         
         // copy the vault block to clipboard

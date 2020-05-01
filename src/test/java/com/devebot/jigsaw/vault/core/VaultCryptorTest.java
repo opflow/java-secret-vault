@@ -7,12 +7,12 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VaultHandlerTest {
-    private final static Logger LOG = LoggerFactory.getLogger(VaultHandlerTest.class);
+public class VaultCryptorTest {
+    private final static Logger LOG = LoggerFactory.getLogger(VaultCryptorTest.class);
     
     @Test
     public void test_decryptVault_valid() throws IOException {
-        TestingUtil.setEnv("JAVA_ANSIBLE_VAULT_PASSWORD", "qwerty");
+        TestingUtil.setEnv("JAVA_SECRET_VAULT_PASSWORD", "qwerty");
         
         String vault = "$ANSIBLE_VAULT;1.1;AES256\n" +
                 "39376266396133623035633932363162363331386134366332636238356536373430313536613936\n" +
@@ -21,7 +21,7 @@ public class VaultHandlerTest {
                 "3665333031633732320a623930363062356131323866616665643531353537623966336663343562\n" +
                 "3132";
         
-        VaultHandler cryptor  = new VaultHandler();
+        VaultCryptor cryptor  = new VaultCryptor();
         
         if (LOG.isDebugEnabled()) {
             LOG.debug("Decrypted: " + cryptor.decryptVault(vault));
@@ -31,9 +31,9 @@ public class VaultHandlerTest {
     
     @Test
     public void test_encryptVault_valid() throws IOException {
-        TestingUtil.setEnv("JAVA_ANSIBLE_VAULT_PASSWORD", "qwerty");
+        TestingUtil.setEnv("JAVA_SECRET_VAULT_PASSWORD", "qwerty");
         
-        VaultHandler cryptor  = new VaultHandler();
+        VaultCryptor cryptor  = new VaultCryptor();
         String vault = cryptor.encryptVault("letmein");
 
         if (LOG.isDebugEnabled()) {
