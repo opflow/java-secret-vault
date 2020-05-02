@@ -13,12 +13,15 @@ public class Main {
             System.out.println("Couldn't get Console instance");
             System.exit(0);
         }
+        
+        VaultCryptor vaultCryptor  = new VaultCryptor();
+        console.printf("[+] Vault password: %s%n", StringUtil.maskPassword(vaultCryptor.getVaultPassword()));
+        
         char[] passwordArray = console.readPassword("[+] Enter your secret: ");
         String secret = new String(passwordArray);
         console.printf("[-] Your input secret: %s%n", StringUtil.maskPassword(secret));
         
         // encrypt the secret
-        VaultCryptor vaultCryptor  = new VaultCryptor();
         String vault = vaultCryptor.encryptVault(secret);
         console.printf("[-] Vault Block:%n%s%n", vault);
         

@@ -46,4 +46,8 @@ public class VaultCryptor {
         VaultPayload payload = CipherFactory.getCipher(CipherInterface.ALGO_AES256).encrypt(plainText.getBytes(), password);
         return DEFAULT_HEADER + StringUtil.LINE_BREAK + payload.toString();
     }
+    
+    public String getVaultPassword() {
+        return passwordLoader.getVaultPassword();
+    }
 }

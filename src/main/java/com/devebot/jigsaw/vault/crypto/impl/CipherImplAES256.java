@@ -6,6 +6,7 @@ import com.devebot.jigsaw.vault.exceptions.DecryptingException;
 import com.devebot.jigsaw.vault.exceptions.EncryptingException;
 import com.devebot.jigsaw.vault.exceptions.PaddingException;
 import com.devebot.jigsaw.vault.exceptions.RestrictedCipherException;
+import com.devebot.jigsaw.vault.utils.SystemUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -147,7 +148,7 @@ public class CipherImplAES256 implements CipherInterface {
         } catch (NoSuchAlgorithmException ex) {
             if (LOG.isErrorEnabled()) {
                 LOG.error("Failed to check for proper Cipher Algorithms: {}", ex.getMessage());
-                ex.printStackTrace();
+                SystemUtil.printStackTrace(ex);
             }
             throw new RestrictedCipherException(ex);
         }

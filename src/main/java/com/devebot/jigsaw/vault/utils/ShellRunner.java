@@ -24,7 +24,7 @@ public class ShellRunner {
                 output.add(line);
             }
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            SystemUtil.printStackTrace(e);
         }
         return String.join("\n", output);
     }

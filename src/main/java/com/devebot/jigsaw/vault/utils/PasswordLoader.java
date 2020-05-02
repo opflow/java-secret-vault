@@ -48,7 +48,7 @@ public class PasswordLoader {
     
     private boolean validatePassword(String password) {
         if (LOG.isTraceEnabled()) {
-            LOG.trace("[-] VaultPassword: {}", StringUtil.maskPassword(password));
+            LOG.trace("VaultPassword: {}", StringUtil.maskPassword(password));
         }
         return true;
     }
