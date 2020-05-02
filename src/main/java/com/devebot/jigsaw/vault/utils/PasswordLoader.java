@@ -31,25 +31,12 @@ public class PasswordLoader {
     public static final String SIMPLE_PASSWD_PATTERN_STRING = "^(?=\\S{6,})";
     public static final Pattern SIMPLE_PASSWD_PATTERN = Pattern.compile(SIMPLE_PASSWD_PATTERN_STRING);
     
-    private Pattern passwordPattern = STRONG_PASSWD_PATTERN;
     private String selectedPasswordLevel = null;
     private String selectedPasswordSource = null;
     private String vaultPassword = null;
 
     public PasswordLoader() {
-        String level = SystemUtil.getEnv(VAULT_PASSWORD_LEVEL_SYS_PROP, VAULT_PASSWORD_LEVEL_ENV_NAME, "simple");
-        selectedPasswordLevel = level;
-        switch (level) {
-            case "strong":
-                passwordPattern = STRONG_PASSWD_PATTERN;
-                break;
-            case "medium":
-                passwordPattern = MEDIUM_PASSWD_PATTERN;
-                break;
-            default:
-                passwordPattern = SIMPLE_PASSWD_PATTERN;
-                break;
-        }
+        selectedPasswordLevel = SystemUtil.getEnv(VAULT_PASSWORD_LEVEL_SYS_PROP, VAULT_PASSWORD_LEVEL_ENV_NAME, "simple");
     }
     
     public synchronized String getVaultPassword() {
@@ -82,16 +69,28 @@ public class PasswordLoader {
         return selectedPasswordLevel;
     }
     
-    private boolean isOk(String password) {
-        return password != null && !password.isBlank();
+    public boolean validatePassword(String password) {
+        return validatePassword(password, selectedPasswordLevel);
     }
     
-    public boolean validatePassword(String password) {
+    public boolean validatePassword(String password, String level) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("VaultPassword: {}", StringUtil.maskPassword(password));
         }
         if (password == null) {
             return false;
+        }
+        Pattern passwordPattern;
+        switch (level) {
+            case "strong":
+                passwordPattern = STRONG_PASSWD_PATTERN;
+                break;
+            case "medium":
+                passwordPattern = MEDIUM_PASSWD_PATTERN;
+                break;
+            default:
+                passwordPattern = SIMPLE_PASSWD_PATTERN;
+                break;
         }
         return passwordPattern.matcher(password).find();
     }
@@ -131,5 +130,9 @@ public class PasswordLoader {
     protected String loadPasswordFromEnv() {
         selectedPasswordSource = "text[" + VAULT_PASSWORD_TEXT_SYS_PROP + "/" + VAULT_PASSWORD_TEXT_ENV_NAME + "]";
         return SystemUtil.getEnv(VAULT_PASSWORD_TEXT_SYS_PROP, VAULT_PASSWORD_TEXT_ENV_NAME);
+    }
+    
+    private boolean isOk(String password) {
+        return password != null && !password.isBlank();
     }
 }
