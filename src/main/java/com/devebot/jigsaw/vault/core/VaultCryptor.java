@@ -47,7 +47,7 @@ public class VaultCryptor {
         return DEFAULT_HEADER + StringUtil.LINE_BREAK + payload.toString();
     }
     
-    public String getVaultPassword() {
-        return passwordLoader.getVaultPassword();
+    public PasswordLoader getPasswordLoader() {
+        return passwordLoader;
     }
 }

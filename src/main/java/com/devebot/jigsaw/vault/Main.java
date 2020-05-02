@@ -15,7 +15,14 @@ public class Main {
         }
         
         VaultCryptor vaultCryptor  = new VaultCryptor();
-        console.printf("[+] Vault password: %s%n", StringUtil.maskPassword(vaultCryptor.getVaultPassword()));
+        String vaultPasswd = vaultCryptor.getPasswordLoader().getVaultPassword();
+        console.printf("[+] Vault password: %s%n", StringUtil.maskPassword(vaultPasswd));
+        if (!vaultCryptor.getPasswordLoader().validatePassword(vaultPasswd)) {
+            System.out.println(StringUtil.format("Vault password from {0} is invalid with the validation level [{1}]",
+                vaultCryptor.getPasswordLoader().getPasswordSource(),
+                vaultCryptor.getPasswordLoader().getValidationLevel()));
+            System.exit(0);
+        }
         
         char[] passwordArray = console.readPassword("[+] Enter your secret: ");
         String secret = new String(passwordArray);

@@ -10,6 +10,9 @@ import org.slf4j.LoggerFactory;
 public class PasswordLoader {
     private final static Logger LOG = LoggerFactory.getLogger(PasswordLoader.class);
     
+    public static final String VAULT_PASSWORD_LEVEL_ENV_NAME = "JAVA_SECRET_VAULT_PASSWORD_LEVEL";
+    public static final String VAULT_PASSWORD_LEVEL_SYS_PROP = "java.secret.vault.password.level";
+    
     public static final String VAULT_PASSWORD_FILE_ENV_NAME = "JAVA_SECRET_VAULT_PASSWORD_FILE";
     public static final String VAULT_PASSWORD_FILE_SYS_PROP = "java.secret.vault.password.file";
     
@@ -25,26 +28,44 @@ public class PasswordLoader {
     public static final String MEDIUM_PASSWD_PATTERN_STRING = "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=\\S{6,})";
     public static final Pattern MEDIUM_PASSWD_PATTERN = Pattern.compile(MEDIUM_PASSWD_PATTERN_STRING);
     
+    public static final String SIMPLE_PASSWD_PATTERN_STRING = "^(?=\\S{6,})";
+    public static final Pattern SIMPLE_PASSWD_PATTERN = Pattern.compile(SIMPLE_PASSWD_PATTERN_STRING);
+    
     private Pattern passwordPattern = STRONG_PASSWD_PATTERN;
+    private String selectedPasswordLevel = null;
+    private String selectedPasswordSource = null;
     private String vaultPassword = null;
+
+    public PasswordLoader() {
+        String level = SystemUtil.getEnv(VAULT_PASSWORD_LEVEL_SYS_PROP, VAULT_PASSWORD_LEVEL_ENV_NAME, "simple");
+        selectedPasswordLevel = level;
+        switch (level) {
+            case "strong":
+                passwordPattern = STRONG_PASSWD_PATTERN;
+                break;
+            case "medium":
+                passwordPattern = MEDIUM_PASSWD_PATTERN;
+                break;
+            default:
+                passwordPattern = SIMPLE_PASSWD_PATTERN;
+                break;
+        }
+    }
     
     public synchronized String getVaultPassword() {
         if (vaultPassword == null) {
             String _password = loadPasswordFromFile();
             if (isOk(_password)) {
-                validatePassword(_password);
                 return (vaultPassword = _password);
             }
 
             _password = loadPasswordFromScript();
             if (isOk(_password)) {
-                validatePassword(_password);
                 return (vaultPassword = _password);
             }
 
             _password = loadPasswordFromEnv();
             if (isOk(_password)) {
-                validatePassword(_password);
                 return (vaultPassword = _password);
             }
 
@@ -53,11 +74,19 @@ public class PasswordLoader {
         return vaultPassword;
     }
     
+    public String getPasswordSource() {
+        return selectedPasswordSource;
+    }
+    
+    public String getValidationLevel() {
+        return selectedPasswordLevel;
+    }
+    
     private boolean isOk(String password) {
         return password != null && !password.isBlank();
     }
     
-    protected boolean validatePassword(String password) {
+    public boolean validatePassword(String password) {
         if (LOG.isTraceEnabled()) {
             LOG.trace("VaultPassword: {}", StringUtil.maskPassword(password));
         }
@@ -72,6 +101,7 @@ public class PasswordLoader {
         
         if (filePath != null) {
             try {
+                selectedPasswordSource = "file[" + filePath + "]";
                 return String.join(StringUtil.LINE_BREAK, Files.readAllLines(Path.of(filePath)));
             } catch (Exception e) {
                 SystemUtil.printStackTrace(e);
@@ -87,6 +117,7 @@ public class PasswordLoader {
         
         if (scriptPath != null) {
             try {
+                selectedPasswordSource = "script[" + scriptPath + "]";
                 return ShellRunner.executeCommand(scriptPath);
             } catch (Exception e) {
                 SystemUtil.printStackTrace(e);
@@ -98,6 +129,7 @@ public class PasswordLoader {
     }
     
     protected String loadPasswordFromEnv() {
+        selectedPasswordSource = "text[" + VAULT_PASSWORD_TEXT_SYS_PROP + "/" + VAULT_PASSWORD_TEXT_ENV_NAME + "]";
         return SystemUtil.getEnv(VAULT_PASSWORD_TEXT_SYS_PROP, VAULT_PASSWORD_TEXT_ENV_NAME);
     }
 }
