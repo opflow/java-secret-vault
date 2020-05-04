@@ -133,6 +133,12 @@ public class PasswordLoader {
     }
     
     private boolean isOk(String password) {
-        return password != null && !password.isBlank();
+        boolean ok = password != null && !password.isBlank();
+        if (ok) {
+            if (LOG.isTraceEnabled()) {
+                LOG.trace("Vault-Password has been loaded from {}", selectedPasswordSource);
+            }
+        }
+        return ok;
     }
 }

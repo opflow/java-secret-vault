@@ -7,6 +7,7 @@ import java.util.Arrays;
 public class StringUtil {
     public static final String CHAR_ENCODING = "UTF-8";
     public static final String LINE_BREAK = "\n";
+    public static final char NEWLINE_CHAR = '\n';
     
     public static String newString(byte[] byteArray) {
         try {
@@ -22,9 +23,7 @@ public class StringUtil {
     
     public static String format(String template, Object ... params) {
         Object[] args = new Object[params.length];
-        for (int i=0; i<params.length; i++) {
-            args[i] = params[i];
-        }
+        System.arraycopy(params, 0, args, 0, params.length);
         return MessageFormat.format(template, args);
     }
     
@@ -39,13 +38,13 @@ public class StringUtil {
         if (vaultBlock == null) {
             return vaultBlock;
         }
-        return vaultBlock.replace('\n', '|');
+        return vaultBlock.replace(NEWLINE_CHAR, '|');
     }
     
     public static String deflattenVault(String vaultBlock) {
         if (vaultBlock == null) {
             return vaultBlock;
         }
-        return vaultBlock.replace('|', '\n');
+        return vaultBlock.replace('|', NEWLINE_CHAR);
     }
 }

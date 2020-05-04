@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
  */
 public class VaultPayload {
     private final static Logger LOG = LoggerFactory.getLogger(VaultPayload.class);
-    private final static char NEWLINE_CHAR = '\n';
     
     private final byte[] salt;
     private final byte[] hmac;
@@ -75,7 +74,7 @@ public class VaultPayload {
         int idx = 0;
         
         int saltLen = 0;
-        while (encodedData[idx] != NEWLINE_CHAR && idx < encodedData.length) {
+        while (encodedData[idx] != StringUtil.NEWLINE_CHAR && idx < encodedData.length) {
             saltLen++;
             idx++;
         }
@@ -86,7 +85,7 @@ public class VaultPayload {
         result[0] = saltLen;
         
         int hmacLen = 0;
-        while (encodedData[idx] != NEWLINE_CHAR && idx < encodedData.length) {
+        while (encodedData[idx] != StringUtil.NEWLINE_CHAR && idx < encodedData.length) {
             hmacLen++;
             idx++;
         }
@@ -114,7 +113,7 @@ public class VaultPayload {
         
         int saltIdx = 0;
         result[0] = new byte[partsLength[0]];
-        while (encodedData[idx] != NEWLINE_CHAR && idx < encodedData.length) {
+        while (encodedData[idx] != StringUtil.NEWLINE_CHAR && idx < encodedData.length) {
             result[0][saltIdx++] = encodedData[idx++];
         }
         idx++; // skip the newline
@@ -124,7 +123,7 @@ public class VaultPayload {
         
         int hmacIdx = 0;
         result[1] = new byte[partsLength[1]];
-        while (encodedData[idx] != NEWLINE_CHAR && idx < encodedData.length) {
+        while (encodedData[idx] != StringUtil.NEWLINE_CHAR && idx < encodedData.length) {
             result[1][hmacIdx++] = encodedData[idx++];
         }
         idx++; // skip the newline
