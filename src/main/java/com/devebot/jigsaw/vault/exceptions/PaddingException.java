@@ -1,6 +1,6 @@
 package com.devebot.jigsaw.vault.exceptions;
 
-public class PaddingException extends AnsibleVaultException {
+public class PaddingException extends SecretVaultException {
     public PaddingException() {
         super();
     }

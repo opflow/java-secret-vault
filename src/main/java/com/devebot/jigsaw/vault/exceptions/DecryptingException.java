@@ -1,6 +1,6 @@
 package com.devebot.jigsaw.vault.exceptions;
 
-public class DecryptingException extends AnsibleVaultException {
+public class DecryptingException extends SecretVaultException {
     public DecryptingException() {
         super();
     }

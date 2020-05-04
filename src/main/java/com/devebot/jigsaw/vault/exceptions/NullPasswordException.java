@@ -1,6 +1,6 @@
 package com.devebot.jigsaw.vault.exceptions;
 
-public class NullPasswordException extends AnsibleVaultException {
+public class NullPasswordException extends SecretVaultException {
     public NullPasswordException() {
         super();
     }

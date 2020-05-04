@@ -1,6 +1,6 @@
 package com.devebot.jigsaw.vault.exceptions;
 
-public class UnsupportedException extends AnsibleVaultException {
+public class UnsupportedException extends SecretVaultException {
     public UnsupportedException() {
         super();
     }

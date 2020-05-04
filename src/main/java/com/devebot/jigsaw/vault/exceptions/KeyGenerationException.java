@@ -1,6 +1,6 @@
 package com.devebot.jigsaw.vault.exceptions;
 
-public class KeyGenerationException extends AnsibleVaultException {
+public class KeyGenerationException extends SecretVaultException {
     public KeyGenerationException() {
         super();
     }

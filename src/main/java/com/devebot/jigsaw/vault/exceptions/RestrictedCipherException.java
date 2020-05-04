@@ -1,6 +1,6 @@
 package com.devebot.jigsaw.vault.exceptions;
 
-public class RestrictedCipherException extends AnsibleVaultException {
+public class RestrictedCipherException extends SecretVaultException {
     public RestrictedCipherException() {
         super();
     }
