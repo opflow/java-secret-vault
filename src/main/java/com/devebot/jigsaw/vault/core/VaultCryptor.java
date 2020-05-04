@@ -13,6 +13,10 @@ public class VaultCryptor {
     
     private final PasswordLoader passwordLoader = new PasswordLoader();
     
+    public PasswordLoader getPasswordLoader() {
+        return passwordLoader;
+    }
+    
     public boolean isVaultBlock(String vaultBlock) {
         return VaultHeader.isVaultBlock(vaultBlock);
     }
@@ -25,6 +29,8 @@ public class VaultCryptor {
         if (!VaultHeader.isVaultBlock(vaultBlock)) {
             return vaultBlock;
         }
+        
+        vaultBlock = StringUtil.deflattenVault(vaultBlock);
         
         VaultHeader header = VaultParser.parseHeader(vaultBlock);
         
@@ -45,9 +51,5 @@ public class VaultCryptor {
         if (plainText == null) return plainText;
         VaultPayload payload = CipherFactory.getCipher(CipherInterface.ALGO_AES256).encrypt(plainText.getBytes(), password);
         return DEFAULT_HEADER + StringUtil.LINE_BREAK + payload.toString();
-    }
-    
-    public PasswordLoader getPasswordLoader() {
-        return passwordLoader;
     }
 }

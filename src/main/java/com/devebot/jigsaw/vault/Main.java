@@ -32,6 +32,14 @@ public class Main {
         String vault = vaultCryptor.encryptVault(secret);
         console.printf("[-] Vault Block:%n%s%n", vault);
         
+        console.printf("[-] Flatten the block? (Y/n)");
+        String flatten = console.readLine();
+        
+        if (!"n".equalsIgnoreCase(flatten)) {
+            vault = StringUtil.flattenVault(vault);
+            console.printf("[-] Flattened Block:%n%s%n", vault);
+        }
+        
         // copy the vault block to clipboard
         if (ClipboardUtil.copy(vault)) {
             console.printf("[-] Vault Block have been copied to clipboard. Paste it somewhere and press [Enter] to exit.");

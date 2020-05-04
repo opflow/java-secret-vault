@@ -34,4 +34,18 @@ public class StringUtil {
         Arrays.fill(charArray, '*');
         return new String(charArray);
     }
+    
+    public static String flattenVault(String vaultBlock) {
+        if (vaultBlock == null) {
+            return vaultBlock;
+        }
+        return vaultBlock.replace('\n', '|');
+    }
+    
+    public static String deflattenVault(String vaultBlock) {
+        if (vaultBlock == null) {
+            return vaultBlock;
+        }
+        return vaultBlock.replace('|', '\n');
+    }
 }
