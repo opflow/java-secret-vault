@@ -101,7 +101,7 @@ public class PasswordLoader {
         if (filePath != null) {
             try {
                 selectedPasswordSource = "file[" + filePath + "]";
-                return String.join(StringUtil.LINE_BREAK, Files.readAllLines(Path.of(filePath)));
+                return StringUtil.newString(FileUtil.readAll(filePath));
             } catch (Exception e) {
                 SystemUtil.printStackTrace(e);
                 return null;
@@ -133,7 +133,7 @@ public class PasswordLoader {
     }
     
     private boolean isOk(String password) {
-        boolean ok = password != null && !password.isBlank();
+        boolean ok = password != null && !password.isEmpty();
         if (ok) {
             if (LOG.isTraceEnabled()) {
                 LOG.trace("Vault-Password has been loaded from {}", selectedPasswordSource);

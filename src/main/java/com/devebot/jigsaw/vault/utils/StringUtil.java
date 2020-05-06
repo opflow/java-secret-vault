@@ -9,6 +9,13 @@ public class StringUtil {
     public static final String LINE_BREAK = "\n";
     public static final char NEWLINE_CHAR = '\n';
     
+    public static String trim(String str) {
+        if (str != null) {
+            return str.trim();
+        }
+        return str;
+    }
+    
     public static String newString(byte[] byteArray) {
         try {
             return new String(byteArray, CHAR_ENCODING);
